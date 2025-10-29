@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #257dbb;
+        --primary-gradient: linear-gradient(135deg, #f4f7fa 0%, #257dbb 100%);
+        --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        --card-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        --card-shadow-hover: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        --border-radius: 0.75rem;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+      }
+
+      .navbar {
+        background-color: #ffffff !important;
+        box-shadow: var(--card-shadow);
+        backdrop-filter: blur(10px);
+      }
+
+      .navbar-brand img {
+        height: 40px;
+        width: auto;
+      }
+
+      .navbar-dark .navbar-nav .nav-link {
+        color: black;
+        font-weight: 500;
+        border-radius: 0.375rem;
+        transition: all 0.3s ease;
+        margin: 0 0.25rem;
+      }
+      .navbar-brand::before {
+        content: "";
+        position: absolute;
+        right: 5px;
+        top: -11px;
+        background: url(./download.svg) no-repeat;
+        width: 25px;
+        height: calc(100% + 19px);
+      }
+      .navbar-brand::after {
+        height: calc(100% + 1rem);
+        content: "";
+        width: 269.666672px;
+        position: absolute;
+        background: rgb(40 109 150 / 8%);
+        left: -83.66667175292969px;
+        top: -0.5rem;
+        z-index: -1;
+        pointer-events: none;
+      }
+      .navbar-dark .navbar-nav .nav-link:hover,
+      .navbar-dark .navbar-nav .nav-link.active {
+        color: #257dbb !important;
+        transform: translateY(-2px);
+      }
+
+      .hero-section {
+        background: linear-gradient(
+          135deg,
+          rgba(37, 125, 187, 0.9) 0%,
+          rgba(102, 126, 234, 0.9) 100%
+        );
+        color: white;
+        padding: 4rem 0;
+        margin-top: 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff20"><polygon points="0,100 1000,0 1000,100"/></svg>');
+        background-size: cover;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-title {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+        opacity: 0.95;
+        margin-bottom: 2rem;
+      }
+
+      .stats-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: var(--card-shadow);
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .stats-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .stats-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .stats-label {
+        color: #6c757d;
+        font-weight: 500;
+        font-size: 1rem;
+      }
+
+      .dashboard-grid {
+        margin: 3rem 0;
+      }
+
+      .dashboard-card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        height: 100%;
+      }
+
+      .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .dashboard-card-header {
+        padding: 1.5rem;
+        background: var(--primary-gradient);
+        color: Black;
+        font-weight: 600;
+      }
+
+      .dashboard-card-body {
+        padding: 1.5rem;
+      }
+
+      .quick-action {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+        text-decoration: none;
+        color: #212529;
+        transition: all 0.3s ease;
+        border: 1px solid #e9ecef;
+      }
+
+      .quick-action:hover {
+        background: #e9ecef;
+        color: #212529;
+        transform: translateX(5px);
+        text-decoration: none;
+      }
+
+      .quick-action i {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        width: 40px;
+        color: #007bff;
+      }
+
+      .recent-activity {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        border-bottom: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+      }
+
+      .activity-item:last-child {
+        border-bottom: none;
+      }
+
+      .activity-item:hover {
+        background: #f8f9fa;
+      }
+
+      .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 1rem;
+        color: white;
+      }
+
+      .activity-icon.assignment {
+        background: #dc3545;
+      }
+      .activity-icon.course {
+        background: #007bff;
+      }
+      .activity-icon.exam {
+        background: #ffc107;
+      }
+
+      .activity-content h6 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .activity-time {
+        font-size: 0.8rem;
+        color: #6c757d;
+      }
+
+      .upcoming-events {
+        background: linear-gradient(135deg, #667eea 0%, #22190c 100%);
+        color: white;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .event-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .event-item:last-child {
+        border-bottom: none;
+      }
+
+      .event-title {
+        font-weight: 500;
+      }
+
+      .event-date {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.25rem 0.5rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+      }
+
+      .progress-section {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 2rem;
+      }
+
+      .progress-card {
+        background: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid #007bff;
+      }
+
+      .progress-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .progress-title {
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .progress-bar {
+        height: 8px;
+        background: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        transition: width 0.3s ease;
+        border-radius: 4px;
+      }
+
+      .welcome-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: var(--border-radius);
+        padding: 2rem;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 2rem;
+      }
+
+      .welcome-card h2 {
+        color: #212529;
+        margin-bottom: 1rem;
+      }
+
+      .welcome-card p {
+        color: #6c757d;
+        line-height: 1.6;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in-up {
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      @media (max-width: 991.98px) {
+        .navbar-collapse {
+          margin-top: 0.75rem;
+          box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .hero-title {
+          font-size: 2.2rem;
+        }
+        .hero-subtitle {
+          font-size: 1.1rem;
+        }
+        .stats-card {
+          margin-bottom: 1rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-section {
+          padding: 2rem 0;
+        }
+        .hero-title {
+          font-size: 1.8rem;
+        }
+        .stats-number {
+          font-size: 2rem;
+        }
+        .dashboard-grid {
+          margin: 1rem 0;
+        }
+      }
+
+      .scroll-indicator {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        box-shadow: var(--card-shadow);
+      }
+
+      .scroll-indicator.show {
+        opacity: 1;
+      }
+
+      .scroll-indicator:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand position-relative" href="index.html">
+          <img src="./logo.webp" alt="Logo" class="me-2" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html"
+                ><i class="fas fa-home me-1"></i> Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="notes.html"
+                ><i class="fas fa-file-alt me-1"></i> Notes</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="courses.html"
+                ><i class="fas fa-book me-1"></i> Courses</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="assignments.html"
+                ><i class="fas fa-clipboard-list me-1"></i> Assignments</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="calendar.html"
+                ><i class="fas fa-calendar-alt me-1"></i> Calendar</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile.html"
+                ><i class="fas fa-user-circle me-1"></i> Profile</a
+              >
+            </li>
+          </ul>
+          <div class="d-flex align-items-center">
+            <button
+              class="btn btn-light btn-sm ms-3"
+              data-bs-toggle="modal"
+              data-bs-target="#quickStartModal"
+            >
+              <i class="fas fa-rocket me-1"></i> Quick Start
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 hero-content">
+            <h1 class="hero-title fade-in-up">
+              Welcome to Your Academic Journey
+            </h1>
+            <p class="hero-subtitle fade-in-up">
+              Master web development with our comprehensive courses, track
+              assignments, and stay organized with smart calendar features.
+            </p>
+            <div class="fade-in-up" style="animation-delay: 0.2s">
+              <a href="courses.html" class="btn btn-light btn-lg me-3">
+                <i class="fas fa-book me-2"></i>Start Learning
+              </a>
+              <a href="assignments.html" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-clipboard-list me-2"></i>View Assignments
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <i
+              class="fas fa-graduation-cap fa-10x fade-in-up"
+              style="opacity: 0.1; animation-delay: 0.4s"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container-fluid dashboard-grid">
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="stats-card fade-in-up">
+            <div class="stats-number text-primary">4</div>
+            <div class="stats-label">Active Courses</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stats-card fade-in-up">
+            <div class="stats-number text-success">12</div>
+            <div class="stats-label">Completed Lessons</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stats-card fade-in-up">
+            <div class="stats-number text-warning">3</div>
+            <div class="stats-label">Pending Assignments</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stats-card fade-in-up">
+            <div class="stats-number text-info">85%</div>
+            <div class="stats-label">Progress</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="dashboard-card fade-in-up">
+            <div class="dashboard-card-header">
+              <i class="fas fa-bolt me-2"></i>Quick Actions
+            </div>
+            <div class="dashboard-card-body">
+              <a href="courses.html" class="quick-action">
+                <i class="fas fa-book"></i>
+                <span>Browse Courses</span>
+              </a>
+              <a href="assignments.html" class="quick-action">
+                <i class="fas fa-clipboard-list"></i>
+                <span>View Assignments</span>
+              </a>
+              <a href="notes.html" class="quick-action">
+                <i class="fas fa-file-alt"></i>
+                <span>Create Notes</span>
+              </a>
+              <a href="calendar.html" class="quick-action">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Check Schedule</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="dashboard-card fade-in-up">
+            <div class="dashboard-card-header">
+              <i class="fas fa-history me-2"></i>Recent Activity
+            </div>
+            <div class="dashboard-card-body recent-activity">
+              <div class="activity-item">
+                <div class="activity-icon assignment">
+                  <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="activity-content flex-grow-1">
+                  <h6>Responsive Web Design Project</h6>
+                  <div class="activity-time">
+                    Assignment submitted • 2 hours ago
+                  </div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon course">
+                  <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="activity-content flex-grow-1">
+                  <h6>CSS Grid Layout Chapter</h6>
+                  <div class="activity-time">Video completed • 1 day ago</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon exam">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="activity-content flex-grow-1">
+                  <h6>JavaScript Quiz</h6>
+                  <div class="activity-time">Due in 2 days • Reminder</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon course">
+                  <i class="fas fa-book"></i>
+                </div>
+                <div class="activity-content flex-grow-1">
+                  <h6>React Components</h6>
+                  <div class="activity-time">Lesson started • 3 days ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="progress-section fade-in-up">
+            <h4 class="mb-3">
+              <i class="fas fa-chart-line me-2 text-primary"></i>Learning
+              Progress
+            </h4>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="progress-card">
+                  <div class="progress-header">
+                    <h6 class="progress-title">HTML/CSS Fundamentals</h6>
+                    <span class="badge bg-success">80%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="progress-card">
+                  <div class="progress-header">
+                    <h6 class="progress-title">JavaScript Basics</h6>
+                    <span class="badge bg-warning">60%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="progress-card">
+                  <div class="progress-header">
+                    <h6 class="progress-title">React Development</h6>
+                    <span class="badge bg-info">25%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 25%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="progress-card">
+                  <div class="progress-header">
+                    <h6 class="progress-title">Overall Progress</h6>
+                    <span class="badge bg-primary">72%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 72%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="upcoming-events fade-in-up">
+            <h4 class="mb-3">
+              <i class="fas fa-bell me-2"></i>Upcoming Events
+            </h4>
+            <div class="event-item">
+              <span class="event-title">Assignment Deadline: CSS Project</span>
+              <div class="event-date">Oct 18</div>
+            </div>
+            <div class="event-item">
+              <span class="event-title">Live Webinar: React Hooks</span>
+              <div class="event-date">Oct 20</div>
+            </div>
+            <div class="event-item">
+              <span class="event-title">Holiday: Columbus Day</span>
+              <div class="event-date">Oct 12</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="scroll-indicator" id="scrollTopBtn" title="Scroll to Top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <div class="modal fade" id="quickStartModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">
+              <i class="fas fa-rocket me-2"></i>Quick Start Guide
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <ol class="list-group list-group-numbered">
+              <li class="list-group-item">
+                Browse <strong>Courses</strong> to start learning
+              </li>
+              <li class="list-group-item">
+                Track your <strong>Assignments</strong> and deadlines
+              </li>
+              <li class="list-group-item">
+                Use <strong>Calendar</strong> to stay organized
+              </li>
+              <li class="list-group-item">
+                Create <strong>Notes</strong> for important concepts
+              </li>
+              <li class="list-group-item">
+                Monitor your <strong>Progress</strong> dashboard
+              </li>
+            </ol>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Got it!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("click", function (e) {
+        const navbarCollapse = document.getElementById("navbarNav");
+        if (
+          navbarCollapse &&
+          !navbarCollapse.contains(e.target) &&
+          navbarCollapse.classList.contains("show")
+        ) {
+          new bootstrap.Collapse(navbarCollapse, { toggle: false }).hide();
+        }
+      });
+
+      const scrollTopBtn = document.getElementById("scrollTopBtn");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          scrollTopBtn.classList.add("show");
+        } else {
+          scrollTopBtn.classList.remove("show");
+        }
+      });
+
+      scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationDelay = "0s";
+            entry.target.classList.add("fade-in-up");
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".fade-in-up").forEach((el) => {
+        observer.observe(el);
+      });
+
+      function animateCounters() {
+        const counters = document.querySelectorAll(".stats-number");
+        counters.forEach((counter) => {
+          const target = parseInt(counter.textContent);
+          const count = +counter.getAttribute("data-target") || target;
+          const increment = target / 100;
+          let current = 0;
+
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+              counter.textContent = target + (target === 85 ? "%" : "");
+              clearInterval(timer);
+            } else {
+              counter.textContent =
+                Math.floor(current) + (target === 85 ? "%" : "");
+            }
+          }, 20);
+        });
+      }
+
+      const statsSection = document.querySelector(".dashboard-grid");
+      observer.observe(statsSection);
+    </script>
+  </body>
+</html>

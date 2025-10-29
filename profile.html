@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #257dbb;
+            --primary-orange: #f5911f;
+            --primary-gradient: linear-gradient(135deg, #f4f7fa 0%, var(--primary-blue) 100%);
+            --card-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --card-shadow-hover: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --border-radius: 0.75rem;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+
+           .navbar {
+        background-color: #ffffff !important;
+        box-shadow: var(--card-shadow);
+        backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+            width: auto;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: black;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+            margin: 0 0.25rem;
+        }
+        .navbar-dark .navbar-nav .nav-link:hover,
+        .navbar-dark .navbar-nav .nav-link.active {
+            color: #257dbb !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .profile-mode {
+            background: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #257dbb;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .profile-mode:hover {
+           background: #257dbb;
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+
+        .profile-container {
+            padding-top: 80px;
+            padding-bottom: 2rem;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: var(--primary-gradient);
+            color: black;
+            padding: 1.5rem;
+            font-weight: 600;
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #495057;
+            flex: 1;
+        }
+
+        .detail-value {
+            color: #6c757d;
+            text-align: right;
+            flex: 2;
+            font-weight: 400;
+        }
+
+        .detail-value strong {
+            color: #212529;
+            font-weight: 600;
+        }
+
+        .interest-course {
+            border: 2px dashed #e9ecef;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #fafbfc;
+        }
+
+        .interest-course:hover {
+            border-color: var(--primary-blue);
+            background: rgba(37, 125, 187, 0.05);
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .interest-course.selected {
+            border-color: var(--primary-orange);
+            border-style: solid;
+            background: rgba(245, 145, 31, 0.1);
+        }
+
+        .interest-course i {
+            font-size: 2.5rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .interest-course.selected i {
+            color: var(--primary-orange);
+        }
+
+        .course-title {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .message-form {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .message-form.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(37, 125, 187, 0.25);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            display: none;
+            text-align: center;
+        }
+
+        .danger-zone {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+        }
+
+        .danger-title {
+            color: #721c24;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .danger-description {
+            color: #856404;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            border: none;
+            border-radius: 0.5rem;
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                text-align: left;
+            }
+            .detail-value {
+                text-align: left;
+            }
+            .interest-course {
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                margin-top: 0.75rem;
+                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            }
+            .profile-mode {
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="./logo.webp" alt="Logo" class="me-2">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="notes.html"><i class="fas fa-file-alt me-1"></i> Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="courses.html"><i class="fas fa-book me-1"></i> Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="assignments.html"><i class="fas fa-clipboard-list me-1"></i> Assignments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calendar.html"><i class="fas fa-calendar-alt me-1"></i> Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item">
+                        <a class="nav-link active" href="profile.html"><i class="fas fa-user-circle me-1"></i> Profile</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="profile-mode btn ms-3" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <i class="fas fa-user me-2"></i>Account Details
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="detail-row">
+                                        <span class="detail-label">Full Name</span>
+                                        <div class="detail-value">
+                                            <strong id="displayFullName">Loading...</strong>
+                                        </div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Email Address</span>
+                                        <div class="detail-value">
+                                            <strong id="displayEmail">Loading...</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-row">
+                                        <span class="detail-label">Phone Number</span>
+                                        <div class="detail-value" id="displayPhone">-</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Date Joined</span>
+                                        <div class="detail-value" id="displayJoinDate">-</div>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Student ID</span>
+                                        <div class="detail-value">
+                                            <strong id="displayStudentId">-</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="profile-card">
+                        <div class="card-header">
+                            <i class="fas fa-heart me-2"></i>Interested Courses
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="interest-course" data-course="data-science">
+                                        <i class="fas fa-chart-line"></i>
+                                        <h6 class="course-title">Data Science</h6>
+                                        <p class="course-description">Machine Learning & Analytics</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="interest-course" data-course="cybersecurity">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <h6 class="course-title">Cybersecurity</h6>
+                                        <p class="course-description">Network Security & Ethics</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="interest-course" data-course="mobile-dev">
+                                        <i class="fas fa-mobile-alt"></i>
+                                        <h6 class="course-title">Mobile Development</h6>
+                                        <p class="course-description">iOS & Android Apps</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="messageForm" class="message-form">
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Your Message</label>
+                                    <textarea class="form-control" id="interestMessage" rows="3" 
+                                        placeholder="Tell us why you're interested in this course..."></textarea>
+                                </div>
+                                <button class="btn btn-success w-100" onclick="submitInterest()">
+                                    <i class="fas fa-paper-plane me-2"></i>Submit Interest
+                                </button>
+                                <div id="successMessage" class="success-message">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    Your message has been submitted successfully! We'll contact you soon about this course.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="profile-card">
+                        <div class="card-header" style="background: linear-gradient(135deg, #dc3545, #c82333);">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Danger Zone
+                        </div>
+                        <div class="card-body">
+                            <div class="danger-zone">
+                                <h6 class="danger-title">Delete Account</h6>
+                                <p class="danger-description">
+                                    <strong>⚠️ Permanent Action:</strong> This will permanently delete your 
+                                    account and all associated data. This action cannot be undone.
+                                </p>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <i class="fas fa-trash me-2"></i>Delete Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #dc3545, #c82333); color: white;">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirm Account Deletion
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger">
+                        <strong>⚠️ Warning:</strong> This action is <strong>PERMANENT</strong> and will delete all your data.
+                    </div>
+                    <p class="text-danger">Type your email address to confirm:</p>
+                    <input type="email" class="form-control" id="confirmEmail" placeholder="your-email@example.com" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete" disabled>
+                        <i class="fas fa-trash me-2"></i>Yes, Delete Permanently
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedCourse = null;
+
+        function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            const userData = localStorage.getItem('userData');
+            if (!token || !userData) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            try {
+                JSON.parse(userData);
+                return true;
+            } catch (e) {
+                logout();
+                return false;
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                window.location.href = 'onboard.html';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) return;
+            
+            const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === 'profile.html') {
+                    link.classList.add('active');
+                }
+            });
+            
+            loadUserProfile();
+            setupEventListeners();
+            setupInterestCourses();
+        });
+
+        function loadUserProfile() {
+            const userData = localStorage.getItem('userData');
+            if (!userData) {
+                logout();
+                return;
+            }
+            
+            const user = JSON.parse(userData);
+            const fullName = user.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Student';
+            
+            document.getElementById('displayFullName').textContent = fullName;
+            document.getElementById('displayEmail').textContent = user.email;
+            document.getElementById('displayPhone').textContent = user.phone || 'Not provided';
+            document.getElementById('displayJoinDate').textContent = user.createdAt ? 
+                new Date(user.createdAt).toLocaleDateString() : 'Unknown';
+            document.getElementById('displayStudentId').textContent = user.studentId || 
+                `STUD${Date.now().toString().slice(-6)}`;
+        }
+
+        function setupInterestCourses() {
+            const interestCourses = document.querySelectorAll('.interest-course');
+            interestCourses.forEach(course => {
+                course.addEventListener('click', function() {
+                    interestCourses.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedCourse = this.dataset.course;
+                    const messageForm = document.getElementById('messageForm');
+                    messageForm.classList.add('show');
+                    document.getElementById('interestMessage').focus();
+                    messageForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                });
+            });
+        }
+
+        function submitInterest() {
+            const message = document.getElementById('interestMessage').value.trim();
+            if (!selectedCourse || !message) {
+                alert('Please select a course and enter your message.');
+                return;
+            }
+
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            const interests = userData.interests || [];
+            interests.push({
+                course: selectedCourse,
+                message: message,
+                submittedAt: new Date().toISOString()
+            });
+            
+            const updatedUser = { ...userData, interests };
+            localStorage.setItem('userData', JSON.stringify(updatedUser));
+
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'block';
+            document.getElementById('messageForm').classList.remove('show');
+            document.getElementById('interestMessage').value = '';
+            
+            document.querySelectorAll('.interest-course').forEach(c => c.classList.remove('selected'));
+            selectedCourse = null;
+
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 5000);
+        }
+
+        function setupEventListeners() {
+            const confirmEmailInput = document.getElementById('confirmEmail');
+            const confirmBtn = document.getElementById('confirmDelete');
+            
+            confirmEmailInput.addEventListener('input', function() {
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                confirmBtn.disabled = this.value !== userData.email;
+            });
+
+            confirmBtn.addEventListener('click', function() {
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                if (confirmEmailInput.value === userData.email) {
+                    if (confirm('This action is IRREVERSIBLE! All your data will be permanently deleted. Are you absolutely sure?')) {
+                        deleteAccount();
+                    }
+                } else {
+                    alert('Please enter your email address correctly.');
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                const navbarCollapse = document.getElementById('navbarNav');
+                if (navbarCollapse && !navbarCollapse.contains(e.target) && navbarCollapse.classList.contains('show')) {
+                    new bootstrap.Collapse(navbarCollapse, {toggle: false}).hide();
+                }
+            });
+        }
+
+        function deleteAccount() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            const userEmail = JSON.parse(localStorage.getItem('userData') || '{}').email || '';
+            users = users.filter(u => u.email !== userEmail);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            alert('Account deleted permanently. All data has been removed.');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

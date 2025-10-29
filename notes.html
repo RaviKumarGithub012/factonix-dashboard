@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Notes</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #f4f7fa 0%, #257dbb 100%);
+        --card-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        --card-shadow-hover: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        --border-radius: 0.75rem;
+      }
+
+      body {
+        background-color: #f8f9fa;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .navbar {
+        background-color: #ffffff !important;
+        box-shadow: var(--card-shadow);
+        backdrop-filter: blur(10px);
+      }
+
+      .navbar-brand img {
+        height: 40px;
+        width: auto;
+      }
+
+      .navbar-dark .navbar-nav .nav-link {
+        color: black;
+        font-weight: 500;
+        border-radius: 0.375rem;
+        transition: all 0.3s ease;
+        margin: 0 0.25rem;
+      }
+      .navbar-dark .navbar-nav .nav-link:hover,
+      .navbar-dark .navbar-nav .nav-link.active {
+        color: #257dbb !important;
+        transform: translateY(-2px);
+      }
+
+      .navbar-toggler {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.375rem;
+      }
+
+      .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+      }
+
+      .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
+
+      .study-mode {
+        background: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #257dbb;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+      }
+
+      .study-mode:hover {
+        background: #257dbb;
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+        color: #ffffff;
+      }
+
+      .search-tabs-section {
+        background: white;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+        margin: 2rem 0;
+      }
+
+      .search-tabs-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .search-input-group {
+        flex: 1;
+        min-width: 250px;
+        position: relative;
+        max-width: 400px;
+      }
+
+      .search-input-group .form-control {
+        border-radius: 50px;
+        padding: 0.75rem 1.5rem 0.75rem 3rem;
+        border: 2px solid #dee2e6;
+        transition: all 0.3s ease;
+      }
+
+      .search-input-group .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+
+      .search-input-group .search-icon {
+        position: absolute;
+        left: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+        z-index: 10;
+      }
+
+      .tabs-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        scrollbar-width: thin;
+        scrollbar-color: #007bff transparent;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .tabs-container::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      .tabs-container::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .tabs-container::-webkit-scrollbar-thumb {
+        background: #007bff;
+        border-radius: 3px;
+      }
+
+      .topic-btn {
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        border: 2px solid #dee2e6;
+        background: transparent;
+        color: #495057;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 90px;
+      }
+
+      .topic-btn.active,
+      .topic-btn:hover {
+        background: #f5911f;
+        border: none;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .note-card {
+        background: white;
+        border: none;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease forwards;
+      }
+
+      .note-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+      }
+
+      .note-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .note-card.bookmarked {
+        border-left: 5px solid #ffc107;
+      }
+
+      .note-card h3 {
+        color: #212529;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+      }
+
+      .difficulty {
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+      }
+
+      .difficulty.easy {
+        color: #28a745;
+      }
+      .difficulty.medium {
+        color: #ffc107;
+      }
+      .difficulty.hard {
+        color: #dc3545;
+      }
+
+      .show-more {
+        color: #007bff;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: inline-block;
+        margin-top: 0.5rem;
+      }
+
+      .show-more:hover {
+        color: #0056b3;
+      }
+
+      .note-date {
+        color: #6c757d;
+        font-size: 0.8rem;
+        margin-top: auto;
+        margin-bottom: 0.5rem;
+      }
+
+      .bookmark-icon {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        color: #6c757d;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        opacity: 0;
+        z-index: 10;
+      }
+
+      .note-card:hover .bookmark-icon,
+      .note-card.bookmarked .bookmark-icon {
+        opacity: 1;
+      }
+
+      .bookmarked .bookmark-icon {
+        color: #ffc107 !important;
+      }
+
+      .pdf-viewer {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 1050;
+        padding: 2rem;
+        overflow: auto;
+      }
+
+      .pdf-viewer.show {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pdf-viewer .close-btn {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        font-size: 2rem;
+        cursor: pointer;
+        color: white;
+        background: rgba(255, 255, 255, 0.2);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 1060;
+      }
+
+      .pdf-viewer .close-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+      }
+
+      .pdf-viewer .pdf-container {
+        position: relative;
+        width: 90%;
+        max-width: 1200px;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .pdf-viewer iframe {
+        flex: 1;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .pdf-controls {
+        position: absolute;
+        bottom: 2rem;
+        right: 2rem;
+        display: flex;
+        gap: 1rem;
+      }
+
+      .pdf-btn {
+        background: #007bff;
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .pdf-btn:hover:not(:disabled) {
+        background: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .pdf-btn:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 991.98px) {
+        .navbar-collapse {
+          margin-top: 0.75rem;
+          box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .study-mode {
+          margin-top: 0.5rem;
+          width: 100%;
+        }
+        .search-tabs-container {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .search-input-group {
+          max-width: none;
+          margin-bottom: 1rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .search-tabs-section {
+          padding: 1rem;
+          margin: 1rem 0;
+        }
+        .search-input-group .form-control {
+          font-size: 0.9rem;
+          padding: 0.625rem 1rem 0.625rem 2.5rem;
+        }
+        .topic-btn {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.85rem;
+          min-width: 75px;
+        }
+        .pdf-viewer {
+          padding: 1rem;
+        }
+        .pdf-viewer .close-btn {
+          top: 1rem;
+          right: 1rem;
+          width: 40px;
+          height: 40px;
+          font-size: 1.5rem;
+        }
+        .pdf-viewer .pdf-container {
+          width: 100%;
+          height: 70%;
+        }
+        .pdf-controls {
+          bottom: 1rem;
+          right: 1rem;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .note-card {
+          padding: 1rem;
+        }
+        .note-card h3 {
+          font-size: 1rem;
+        }
+        .topic-btn {
+          padding: 0.35rem 0.6rem;
+          font-size: 0.8rem;
+          min-width: 70px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <img src="./logo.webp" alt="Logo" class="me-2" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html"
+                ><i class="fas fa-home me-1"></i> Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="notes.html"
+                ><i class="fas fa-file-alt me-1"></i> Notes</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="courses.html"
+                ><i class="fas fa-book me-1"></i> Courses</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="assignments.html"
+                ><i class="fas fa-clipboard-list me-1"></i> Assignments</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="calendar.html"
+                ><i class="fas fa-calendar-alt me-1"></i> Calendar</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile.html"
+                ><i class="fas fa-user-circle me-1"></i> Profile</a
+              >
+            </li>
+          </ul>
+          <div class="d-flex align-items-center">
+            <button
+              class="study-mode btn ms-3"
+              data-bs-toggle="modal"
+              data-bs-target="#studyModeModal"
+            >
+              <i class="fas fa-play-circle me-1"></i> Study Mode
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid px-3 px-lg-4" style="padding-top: 80px">
+      <section class="search-tabs-section">
+        <div class="search-tabs-container">
+          <div class="search-input-group">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              class="form-control"
+              id="searchInput"
+              placeholder="🔍 Search notes, topics, or keywords..."
+              autocomplete="off"
+            />
+          </div>
+          <div class="tabs-container" id="topicButtons">
+            <button type="button" class="topic-btn active" data-topic="all">
+              <i class="fas fa-th-large me-1"></i>All
+            </button>
+            <button type="button" class="topic-btn" data-topic="html">
+              <i class="fab fa-html5 me-1"></i>HTML
+            </button>
+            <button type="button" class="topic-btn" data-topic="css">
+              <i class="fab fa-css3-alt me-1"></i>CSS
+            </button>
+            <button type="button" class="topic-btn" data-topic="javascript">
+              <i class="fab fa-js-square me-1"></i>JavaScript
+            </button>
+            <button type="button" class="topic-btn" data-topic="react">
+              <i class="fab fa-react me-1"></i>React
+            </button>
+            <button type="button" class="topic-btn" data-topic="frontend">
+              <i class="fas fa-laptop-code me-1"></i>Frontend
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div class="row g-4" id="noteGrid">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="note-card h-100" data-topic="javascript">
+            <i
+              class="fas fa-bookmark bookmark-icon"
+              onclick="toggleBookmark(this)"
+              title="Bookmark"
+            ></i>
+            <h3>While Loop in JS</h3>
+            <p class="difficulty easy mb-2">Difficulty: ★★★ Easy</p>
+            <p class="flex-grow-1 mb-2">
+              Learn how to use while loops in JavaScript to execute a block of
+              code as long as a condition is true. Essential for repetitive
+              tasks.
+            </p>
+            <a
+              href="#"
+              class="show-more"
+              data-pdf="pdf/While Loop in JS.pdf"
+              data-index="0"
+            >
+              <i class="fas fa-eye me-1"></i>View Full Notes
+            </a>
+            <p class="note-date">Updated: 01/08/2025</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="note-card h-100" data-topic="html">
+            <i
+              class="fas fa-bookmark bookmark-icon"
+              onclick="toggleBookmark(this)"
+              title="Bookmark"
+            ></i>
+            <h3>HTML5 Semantic Elements</h3>
+            <p class="difficulty medium mb-2">Difficulty: ★★★★ Medium</p>
+            <p class="flex-grow-1 mb-2">
+              Master HTML5 semantic elements like header, nav, main, article,
+              section, and footer for better SEO and accessibility.
+            </p>
+            <a
+              href="#"
+              class="show-more"
+              data-pdf="pdf/HTML5 Semantic Elements.pdf"
+              data-index="1"
+            >
+              <i class="fas fa-eye me-1"></i>View Full Notes
+            </a>
+            <p class="note-date">Updated: 12/15/2024</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+          <div class="note-card h-100" data-topic="css">
+            <i
+              class="fas fa-bookmark bookmark-icon"
+              onclick="toggleBookmark(this)"
+              title="Bookmark"
+            ></i>
+            <h3>CSS Flexbox Layout</h3>
+            <p class="difficulty medium mb-2">Difficulty: ★★★★ Medium</p>
+            <p class="flex-grow-1 mb-2">
+              Complete guide to CSS Flexbox for creating responsive layouts with
+              justify-content, align-items, and flex properties.
+            </p>
+            <a
+              href="#"
+              class="show-more"
+              data-pdf="pdf/CSS Flexbox Layout.pdf"
+              data-index="2"
+            >
+              <i class="fas fa-eye me-1"></i>View Full Notes
+            </a>
+            <p class="note-date">Updated: 11/20/2024</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4" id="noResults" style="display: none">
+        <div class="col-12 text-center">
+          <div class="alert alert-info">
+            <i class="fas fa-search fa-2x mb-3 d-block"></i>
+            <h4>No notes found</h4>
+            <p>Try adjusting your search terms or filters</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pdf-viewer" id="pdfViewer">
+      <span class="close-btn" onclick="closePDFViewer()" title="Close"
+        >&times;</span
+      >
+      <div class="pdf-container">
+        <iframe id="pdfFrame" src="" frameborder="0"></iframe>
+        <div class="pdf-controls">
+          <button
+            class="pdf-btn"
+            id="prevBtn"
+            onclick="navigatePDF('prev')"
+            disabled
+          >
+            <i class="fas fa-arrow-left me-1"></i>Previous
+          </button>
+          <button
+            class="pdf-btn"
+            id="nextBtn"
+            onclick="navigatePDF('next')"
+            disabled
+          >
+            Next <i class="fas fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let bookmarks = new Set();
+      let currentTopicFilter = "all";
+      let currentPDFIndex = -1;
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const topicButtons = document.querySelectorAll(
+          "#topicButtons .topic-btn"
+        );
+        topicButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            topicButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+            currentTopicFilter = this.getAttribute("data-topic");
+            filterAndDisplayCards();
+          });
+        });
+
+        const searchInput = document.getElementById("searchInput");
+        if (searchInput) {
+          searchInput.addEventListener(
+            "input",
+            debounce(filterAndDisplayCards, 300)
+          );
+          searchInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+              filterAndDisplayCards();
+            }
+          });
+        }
+
+        document.querySelectorAll(".show-more").forEach((link, index) => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            currentPDFIndex = index;
+            const pdfUrl = this.getAttribute("data-pdf");
+            openPDFViewer(pdfUrl);
+          });
+        });
+
+        filterAndDisplayCards();
+      });
+
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      function filterAndDisplayCards() {
+        const searchTerm =
+          document.getElementById("searchInput")?.value.toLowerCase().trim() ||
+          "";
+        const noteCards = document.querySelectorAll("#noteGrid .note-card");
+        const visibleCards = [];
+
+        noteCards.forEach((card) => {
+          const col = card.closest(".col");
+          const cardTopic = card.getAttribute("data-topic");
+          const cardText = card.textContent.toLowerCase();
+
+          const topicMatch =
+            currentTopicFilter === "all" || cardTopic === currentTopicFilter;
+          const searchMatch =
+            searchTerm === "" || cardText.includes(searchTerm);
+
+          if (topicMatch && searchMatch) {
+            col.classList.remove("d-none");
+            visibleCards.push(card);
+          } else {
+            col.classList.add("d-none");
+          }
+        });
+
+        const noResults = document.getElementById("noResults");
+        const noteGrid = document.getElementById("noteGrid");
+
+        if (visibleCards.length === 0) {
+          if (noResults) noResults.style.display = "block";
+          if (noteGrid) noteGrid.style.display = "none";
+        } else {
+          if (noResults) noResults.style.display = "none";
+          if (noteGrid) noteGrid.style.display = "block";
+          equalizeCardHeights(visibleCards);
+        }
+      }
+
+      function equalizeCardHeights(cards) {
+        if (!cards || cards.length === 0) return;
+        cards.forEach((card) => (card.style.height = "auto"));
+        let maxHeight = 0;
+        cards.forEach(
+          (card) => (maxHeight = Math.max(maxHeight, card.offsetHeight))
+        );
+        cards.forEach((card) => (card.style.height = maxHeight + "px"));
+      }
+
+      function toggleBookmark(icon) {
+        const card = icon.closest(".note-card");
+
+        if (card.classList.contains("bookmarked")) {
+          card.classList.remove("bookmarked");
+          icon.style.color = "#6c757d";
+        } else {
+          card.classList.add("bookmarked");
+          icon.style.color = "#ffc107";
+        }
+      }
+
+      function openPDFViewer(pdfUrl) {
+        const viewer = document.getElementById("pdfViewer");
+        const frame = document.getElementById("pdfFrame");
+        frame.src = pdfUrl;
+        viewer.classList.add("show");
+        document.body.style.overflow = "hidden";
+        updatePDFNavigation();
+      }
+
+      function closePDFViewer() {
+        const viewer = document.getElementById("pdfViewer");
+        viewer.classList.remove("show");
+        document.getElementById("pdfFrame").src = "";
+        document.body.style.overflow = "auto";
+      }
+
+      function updatePDFNavigation() {
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const totalPDFs = document.querySelectorAll(".show-more").length;
+
+        prevBtn.disabled = currentPDFIndex <= 0;
+        nextBtn.disabled = currentPDFIndex >= totalPDFs - 1;
+      }
+
+      function navigatePDF(direction) {
+        const totalPDFs = document.querySelectorAll(".show-more").length;
+
+        if (direction === "prev" && currentPDFIndex > 0) {
+          currentPDFIndex--;
+        } else if (direction === "next" && currentPDFIndex < totalPDFs - 1) {
+          currentPDFIndex++;
+        }
+
+        const newPDFUrl = document
+          .querySelectorAll(".show-more")
+          [currentPDFIndex]?.getAttribute("data-pdf");
+        if (newPDFUrl) {
+          document.getElementById("pdfFrame").src = newPDFUrl;
+          updatePDFNavigation();
+        }
+      }
+
+      document.addEventListener("click", function (e) {
+        const viewer = document.getElementById("pdfViewer");
+        const closeBtn = document.querySelector(".close-btn");
+        if (
+          viewer.classList.contains("show") &&
+          !viewer.querySelector(".pdf-container").contains(e.target) &&
+          !closeBtn.contains(e.target)
+        ) {
+          closePDFViewer();
+        }
+      });
+
+      document.addEventListener("click", function (e) {
+        const navbarCollapse = document.getElementById("navbarNav");
+        if (
+          navbarCollapse &&
+          !navbarCollapse.contains(e.target) &&
+          navbarCollapse.classList.contains("show")
+        ) {
+          const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+            toggle: false,
+          });
+          bsCollapse.hide();
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closePDFViewer();
+        }
+      });
+    </script>
+  </body>
+</html>
